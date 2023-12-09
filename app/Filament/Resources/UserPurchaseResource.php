@@ -61,19 +61,21 @@ class UserPurchaseResource extends Resource
             ->defaultSort('created_at', 'desc')
             ->columns([
                 Tables\Columns\TextColumn::make('user.firstname')
-                    ->numeric()
-                    ->sortable()
-                    ->label('ФИО пользователя')
-                    ->formatStateUsing(function (UserPurchase $record) {
-                        return $record->user->getFilamentName();
-                    }),
+                    ->label('ФИО')
+                    ->formatStateUsing(fn (UserPurchase $record) => $record->user->getFilamentName()),
                 Tables\Columns\TextColumn::make('user.phone')
                     ->numeric()
-                    ->sortable()
-                    ->label('Номер телефона пользователя')
-                    ->formatStateUsing(function (UserPurchase $record) {
-                        return $record->user->phone;
-                    }),
+                    ->label('Номер телефона')
+                    ->formatStateUsing(fn (UserPurchase $record) => $record->user->phone),
+                Tables\Columns\TextColumn::make('user.district')
+                    ->label('Область')
+                    ->formatStateUsing(fn (UserPurchase $record) => $record->user->district->name),
+                Tables\Columns\TextColumn::make('user.region')
+                    ->label('Регион')
+                    ->formatStateUsing(fn (UserPurchase $record) => $record->user->region->name),
+                Tables\Columns\TextColumn::make('user.dealer')
+                    ->label('Дилер')
+                    ->formatStateUsing(fn (UserPurchase $record) => $record->user->dealer->name),
                 Tables\Columns\TextColumn::make('price')
                     ->numeric()
                     ->sortable()

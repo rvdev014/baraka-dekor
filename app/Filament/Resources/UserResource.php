@@ -84,20 +84,12 @@ class UserResource extends Resource
                     ->forceSearchCaseInsensitive()
                     ->label('Номер телефона'),
                 Tables\Columns\TextColumn::make('dealer.name')
-                    ->numeric()
-                    ->sortable()
                     ->label('Дилер'),
                 Tables\Columns\TextColumn::make('district.name')
-                    ->numeric()
-                    ->sortable()
                     ->label('Область'),
                 Tables\Columns\TextColumn::make('region.name')
-                    ->numeric()
-                    ->sortable()
                     ->label('Регион'),
                 Tables\Columns\TextColumn::make('location')
-                    ->numeric()
-                    ->sortable()
                     ->label('Локация'),
                 Tables\Columns\IconColumn::make('is_admin')
                     ->boolean()
