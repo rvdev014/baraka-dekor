@@ -194,6 +194,7 @@ class RegisterScene extends BaseScene
         try {
             $data = $this->getData();
             $user = new User();
+            $user->chat_id = $this->ctx->getFromId();
             $user->firstname = $data['firstname'];
             $user->lastname = $data['lastname'];
             $user->district_id = $data['district'];
