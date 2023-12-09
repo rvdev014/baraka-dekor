@@ -47,7 +47,7 @@ class UserPurchaseResource extends Resource
                 Forms\Components\Select::make('user_id')
                     ->label('Пользователь')
                     ->relationship('user', 'firstname')
-                    ->getOptionLabelFromRecordUsing(fn(User $user) => $user->firstname . ' ' . $user->lastname)
+                    ->getOptionLabelFromRecordUsing(fn(User $user) => $user->getFilamentName())
                     ->required(),
                 Forms\Components\TextInput::make('price')
                     ->required()
@@ -68,7 +68,7 @@ class UserPurchaseResource extends Resource
                     ->sortable()
                     ->label('ФИО пользователя')
                     ->formatStateUsing(function (UserPurchase $record) {
-                        return $record->user->firstname . ' ' . $record->user->lastname;
+                        return $record->user->getFilamentName();
                     }),
                 Tables\Columns\TextColumn::make('user.phone')
                     ->numeric()
