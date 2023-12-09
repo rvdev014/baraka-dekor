@@ -21,6 +21,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property string $lastname
  * @property string $phone
  * @property string $location
+ * @property int $chat_id
  * @property int $district_id
  * @property int $region_id
  * @property int $dealer_id
@@ -55,6 +56,7 @@ class User extends Authenticatable implements FilamentUser, HasName
         'location',
         'email',
         'password',
+        'chat_id',
         'district_id',
         'region_id',
         'dealer_id'
