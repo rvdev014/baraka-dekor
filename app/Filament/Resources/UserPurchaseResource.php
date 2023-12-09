@@ -58,11 +58,8 @@ class UserPurchaseResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->defaultSort('created_at', 'desc')
             ->columns([
-                Tables\Columns\TextColumn::make('user.id')
-                    ->numeric()
-                    ->sortable()
-                    ->label('ID пользователя'),
                 Tables\Columns\TextColumn::make('user.firstname')
                     ->numeric()
                     ->sortable()

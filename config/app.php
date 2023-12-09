@@ -187,6 +187,7 @@ return [
     ])->toArray(),
 
     'telegram' => [
+        'base_url' => env('TELEGRAM_BOT_BASE_URL', 'https://api.telegram.org'),
         'token' => env('TELEGRAM_BOT_TOKEN'),
     ]
 
