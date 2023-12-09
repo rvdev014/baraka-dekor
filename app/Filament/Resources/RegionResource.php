@@ -34,13 +34,9 @@ class RegionResource extends Resource
             ->schema([
                 Forms\Components\Select::make('district_id')
                     ->label('Область')
-                    ->options(
-                        District::query()
-                            ->get()
-                            ->mapWithKeys(fn(District $district) => [$district->id => $district->name])
-                            ->toArray()
-                    ),
+                    ->relationship('district', 'id'),
                 Forms\Components\TextInput::make('name')
+                    ->label('Название')
                     ->required()
                     ->maxLength(100),
             ]);
@@ -51,15 +47,19 @@ class RegionResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('district.name')
+                    ->label('Область')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('name')
+                    ->label('Название')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label('Время создания')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label('Время обновления')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
