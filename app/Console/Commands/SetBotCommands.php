@@ -13,5 +13,6 @@ class SetBotCommands extends Command
     public function handle(BotService $botService): void
     {
         $botService->setCommands();
+        $this->info('Bot commands was set');
     }
 }

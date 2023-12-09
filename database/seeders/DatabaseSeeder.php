@@ -14,21 +14,20 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        if (!User::where('phone', '998935146492')->exists()) {
+        if (!User::where('phone', '998999999999')->exists()) {
             User::factory()->create([
                 'firstname' => 'Test',
                 'lastname' => 'User',
                 'email' => 'test@example.com',
-                'phone' => '998935146492',
+                'phone' => '998999999999',
             ]);
         }
 
-        if (!User::where('phone', '998935146491')->exists()) {
+        if (!User::where('phone', env('ADMIN_PHONE'))->exists()) {
             User::factory()->create([
                 'firstname' => 'Test',
                 'lastname' => 'Admin',
-                'email' => 'admin@example.com',
-                'phone' => '998935146491',
+                'phone' => env('ADMIN_PHONE'),
                 'password' => Hash::make(env('ADMIN_PASSWORD')),
                 'is_admin' => true,
             ]);
