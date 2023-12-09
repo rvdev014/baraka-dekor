@@ -17,5 +17,3 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return redirect('/admin');
 });
-
-Route::get('/telegram/webhook', [TelegramController::class, 'webhook']);
