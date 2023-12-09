@@ -33,6 +33,7 @@ class DistrictResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->label('Название')
                     ->required()
                     ->maxLength(100),
             ]);
@@ -43,12 +44,15 @@ class DistrictResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+                    ->label('Название')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label('Время создания')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label('Время обновления')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
