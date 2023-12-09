@@ -1,0 +1,70 @@
+version: "3.7"
+
+services:
+    webapp:
+        image: nginx:latest
+        ports:
+            - "4000:80"
+        volumes:
+            - ./:/app
+            - ./docker/nginx/conf.d:/etc/nginx/conf.d
+        depends_on:
+            - php-fpm
+
+    php-fpm:
+        build: docker/php-fpm
+        volumes:
+            - ./:/app
+        depends_on:
+            - postgres
+
+    postgres:
+        image: postgres:14-alpine
+        volumes:
+            - ./docker/storage/postgres-data:/var/lib/postgresql/data
+        environment:
+            POSTGRES_USER: dev
+            POSTGRES_PASSWORD: root
+            POSTGRES_DB: barakadekor
+
+    pgadmin:
+        image: dpage/pgadmin4
+        user: root
+        ports:
+            - "4001:80"
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
+        environment:
+            PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+            PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+        volumes:
+            - ./docker/storage/pgadmin-data:/var/lib/pgadmin
+    #        depends_on:
+    #            - postgres
+
+
+    redis:
+        image: redis:alpine
+
+    redis-webui:
+        image: 'erikdubbelboer/phpredisadmin:latest'
+        environment:
+            - 'REDIS_1_HOST=${REDIS_WEBUI_CONNECT_HOST:-redis}'
+            - 'REDIS_1_PORT=${REDIS_WEBUI_CONNECT_PORT:-6379}'
+        volumes:
+            - ./docker/redis/includes/config.sample.inc.php:/src/app/includes/config.sample.inc.php
+        ports:
+            - '4002:80'
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
+        depends_on:
+            - redis
+
+#    mailhog:
+#        image: mailhog/mailhog
+#        restart: always
+#        ports:
+#            - "4002:8025"
+#            - "1025:1025"
+#        volumes:
+#            - ./docker/storage/mailhog-data:/data
