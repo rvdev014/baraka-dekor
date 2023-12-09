@@ -89,8 +89,8 @@ class UserPurchaseResource extends Resource
             ->filters([
                 Filter::make('created_at')
                     ->form([
-                        DatePicker::make('created_from'),
-                        DatePicker::make('created_until'),
+                        DatePicker::make('created_from')->label('Время от'),
+                        DatePicker::make('created_until')->label('Время до'),
                     ])
                     ->query(function (Builder $query, array $data): Builder {
                         return $query
@@ -111,7 +111,9 @@ class UserPurchaseResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
-                ExportBulkAction::make()->exports([UserPurchaseExport::make()])
+                ExportBulkAction::make()
+                    ->label('Экспорт')
+                    ->exports([UserPurchaseExport::make()])
             ])
             ->emptyStateActions([
                 Tables\Actions\CreateAction::make(),

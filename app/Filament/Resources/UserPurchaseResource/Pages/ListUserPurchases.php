@@ -16,7 +16,9 @@ class ListUserPurchases extends ListRecords
     {
         return [
             Actions\CreateAction::make(),
-            ExportAction::make()->exports([UserPurchaseExport::make()]),
+            ExportAction::make()
+                ->label('Экспорт')
+                ->exports([UserPurchaseExport::make()]),
         ];
     }
 }

@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
+use App\Filament\Resources\UserResource\UserExport;
 use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Components\DatePicker;
@@ -108,8 +109,8 @@ class UserResource extends Resource
             ->filters([
                 Filter::make('created_at')
                     ->form([
-                        DatePicker::make('created_from'),
-                        DatePicker::make('created_until'),
+                        DatePicker::make('created_from')->label('Время от'),
+                        DatePicker::make('created_until')->label('Время до'),
                     ])
                     ->query(function (Builder $query, array $data): Builder {
                         return $query
@@ -131,6 +132,8 @@ class UserResource extends Resource
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
                 ExportBulkAction::make()
+                    ->label('Экспорт')
+                    ->exports([UserExport::make()])
             ])
             ->emptyStateActions([
                 Tables\Actions\CreateAction::make(),

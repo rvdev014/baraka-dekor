@@ -16,7 +16,9 @@ class ListUsers extends ListRecords
     {
         return [
             Actions\CreateAction::make(),
-            ExportAction::make()->exports([UserExport::make()]),
+            ExportAction::make()
+                ->label('Экспорт')
+                ->exports([UserExport::make()]),
         ];
     }
 }

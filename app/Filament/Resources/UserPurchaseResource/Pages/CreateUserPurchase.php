@@ -9,4 +9,5 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateUserPurchase extends CreateRecord
 {
     protected static string $resource = UserPurchaseResource::class;
+    protected static ?string $title = 'Создание покупки';
 }
