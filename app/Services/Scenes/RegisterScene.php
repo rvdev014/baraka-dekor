@@ -6,6 +6,7 @@ use App\Models\Dealer;
 use App\Models\District;
 use App\Models\Region;
 use App\Models\User;
+use App\Services\BotService;
 use App\Services\Telegram\ScenesCore\BaseScene;
 use App\Services\Telegram\ScenesCore\SceneCbEnum;
 use App\Services\Telegram\ScenesCore\SceneStep;
@@ -174,18 +175,21 @@ class RegisterScene extends BaseScene
                     $contact = $this->ctx->message['contact'];
                     $this->appendData(['phone' => $contact['phone_number']]);
 
-                    $this->ctx->answer('Сохраняем ваши данные...', [
+                    if ($this->saveData()) {
+                        $response = 'Спасибо за регистрацию! Ваши данные успешно сохранены!';
+                    } else {
+                        $response = 'Произошла ошибка при сохранении данных. Попробуйте еще раз /' . BotService::START_COMMAND;
+                    }
+                    $this->ctx->answer($response, [
                         'reply_markup' => ['remove_keyboard' => true]
                     ]);
-                    $this->saveData();
-                    $this->ctx->answer('Спасибо за регистрацию! Ваши данные успешно сохранены!');
                     $this->finish();
                 }
             ),
         ];
     }
 
-    protected function saveData(): void
+    protected function saveData(): bool
     {
         try {
             $data = $this->getData();
@@ -199,10 +203,11 @@ class RegisterScene extends BaseScene
             $user->phone = $data['phone'];
             $user->password = Hash::make('12345678');
             $user->saveOrFail();
+
+            return true;
         } catch (Throwable $e) {
             TgHelper::console($e->getMessage());
-            $this->ctx->answer('Произошла ошибка при сохранении данных. Попробуйте еще раз /start');
-            $this->finish();
+            return false;
         }
     }
 
