@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Services\BotService;
+use App\Services\Telegram\TgBotParams;
 use Illuminate\Console\Command;
 
 class RunBot extends Command

@@ -5,17 +5,15 @@ namespace App\Services\Telegram;
 class TgBotParams
 {
 
-    private array $cacheParams;
-
     public function __construct(
         private readonly bool $webhook = false,
-        array $cacheParams = [],
+        private readonly array $cacheParams = [],
     ) {
-        $this->cacheParams = array_merge_recursive([
-            'host' => config('database.redis.default.host'),
-            'port' => config('database.redis.default.port'),
-            'password' => config('database.redis.default.password'),
-        ], $cacheParams);
+    }
+
+    public static function make(bool $webhook, array $cacheParams = []): self
+    {
+        return new self($webhook, $cacheParams);
     }
 
     public function isWebhook(): bool

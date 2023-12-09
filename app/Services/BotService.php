@@ -33,10 +33,17 @@ class BotService
         $this->token = config('app.telegram.token');
     }
 
-    public function run(): void
+    public function run(bool $webhook = false): void
     {
         try {
-            $telegram = new TgBot(config('app.telegram.token'), new TgBotParams());
+            $options = TgBotParams::make($webhook, [
+                'host' => config('database.redis.default.host'),
+                'port' => config('database.redis.default.port'),
+                'password' => config('database.redis.default.password'),
+            ]);
+
+            $telegram = new TgBot(config('app.telegram.token'), $options);
+
             $telegram->registerScene(self::REGISTER_SCENE, RegisterScene::class);
             $telegram->registerScene(self::PURCHASE_SCENE, PurchaseScene::class);
 
