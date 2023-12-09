@@ -50,13 +50,7 @@ class DistrictResource extends Resource
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Время создания')
                     ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->label('Время обновления')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->sortable(),
             ])
             ->filters([
                 //
