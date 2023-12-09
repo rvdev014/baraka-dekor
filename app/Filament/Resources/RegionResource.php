@@ -34,7 +34,7 @@ class RegionResource extends Resource
             ->schema([
                 Forms\Components\Select::make('district_id')
                     ->label('Область')
-                    ->relationship('district', 'id'),
+                    ->relationship('district', 'name'),
                 Forms\Components\TextInput::make('name')
                     ->label('Название')
                     ->required()
