@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\UserPurchaseResource\Pages;
 use App\Filament\Resources\UserPurchaseResource\RelationManagers;
 use App\Filament\Resources\UserPurchaseResource\UserPurchaseExport;
+use App\Filament\Utils\Filters\DateRangeFilter;
 use App\Models\User;
 use App\Models\UserPurchase;
 use Filament\Forms;
@@ -16,13 +17,14 @@ use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 
 class UserPurchaseResource extends Resource
 {
     protected static ?string $model = UserPurchase::class;
     protected static ?string $pluralLabel = 'Покупки пользователей';
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-m-shopping-cart';
     protected static bool $isGloballySearchable = true;
 
     public static function getGloballySearchableAttributes(): array
@@ -50,6 +52,7 @@ class UserPurchaseResource extends Resource
                     ->getOptionLabelFromRecordUsing(fn(User $user) => $user->getFilamentName())
                     ->required(),
                 Forms\Components\TextInput::make('price')
+                    ->label('Сумма покупки')
                     ->required()
                     ->numeric(),
             ]);
@@ -86,22 +89,7 @@ class UserPurchaseResource extends Resource
                     ->label('Время покупки'),
             ])
             ->filters([
-                Filter::make('created_at')
-                    ->form([
-                        DatePicker::make('created_from')->label('Время от'),
-                        DatePicker::make('created_until')->label('Время до'),
-                    ])
-                    ->query(function (Builder $query, array $data): Builder {
-                        return $query
-                            ->when(
-                                $data['created_from'],
-                                fn(Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
-                            )
-                            ->when(
-                                $data['created_until'],
-                                fn(Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
-                            );
-                    })
+                DateRangeFilter::make('created_at'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

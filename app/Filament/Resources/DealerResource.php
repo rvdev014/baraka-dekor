@@ -16,7 +16,7 @@ class DealerResource extends Resource
     protected static ?string $model = Dealer::class;
     protected static ?string $pluralLabel = 'Дилеры';
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-m-briefcase';
     protected static bool $isGloballySearchable = true;
 
     public static function getGloballySearchableAttributes(): array

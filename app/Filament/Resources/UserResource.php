@@ -5,15 +5,13 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\UserResource\Pages;
 use App\Filament\Resources\UserResource\RelationManagers;
 use App\Filament\Resources\UserResource\UserExport;
+use App\Filament\Utils\Filters\DateRangeFilter;
 use App\Models\User;
 use Filament\Forms;
-use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 
@@ -21,7 +19,7 @@ class UserResource extends Resource
 {
     protected static ?string $model = User::class;
     protected static ?string $pluralLabel = 'Пользователи';
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-m-user-group';
     protected static bool $isGloballySearchable = true;
 
     public static function getGloballySearchableAttributes(): array
@@ -90,32 +88,23 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('region.name')
                     ->label('Регион'),
                 Tables\Columns\TextColumn::make('location')
-                    ->label('Локация'),
-                Tables\Columns\IconColumn::make('is_admin')
+                    ->label('Локация')
+                    ->formatStateUsing(function (User $record) {
+                        $location = json_decode($record->location, true);
+                        $lat = $location['latitude'];
+                        $lon = $location['longitude'];
+                        return "$lat, $lon";
+                    }),
+                /*Tables\Columns\IconColumn::make('is_admin')
                     ->boolean()
-                    ->label('Админ?'),
+                    ->label('Админ?'),*/
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
                     ->label('Время создания'),
             ])
             ->filters([
-                Filter::make('created_at')
-                    ->form([
-                        DatePicker::make('created_from')->label('Время от'),
-                        DatePicker::make('created_until')->label('Время до'),
-                    ])
-                    ->query(function (Builder $query, array $data): Builder {
-                        return $query
-                            ->when(
-                                $data['created_from'],
-                                fn(Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
-                            )
-                            ->when(
-                                $data['created_until'],
-                                fn(Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
-                            );
-                    })
+                DateRangeFilter::make('created_at'),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

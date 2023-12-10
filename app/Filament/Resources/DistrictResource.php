@@ -19,7 +19,7 @@ class DistrictResource extends Resource
 
     protected static ?string $pluralLabel = 'Области';
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-m-globe-asia-australia';
 
     protected static bool $isGloballySearchable = true;
 

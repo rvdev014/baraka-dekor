@@ -19,7 +19,7 @@ class RegionResource extends Resource
 
     protected static ?string $pluralLabel = 'Регионы';
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-m-globe-americas';
 
     protected static bool $isGloballySearchable = true;
 
