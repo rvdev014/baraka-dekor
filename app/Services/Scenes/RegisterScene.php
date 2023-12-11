@@ -28,7 +28,7 @@ class RegisterScene extends BaseScene
         'region' => 'Выберите ваш регион:',
         'location' => 'Выберите ваше местоположение:',
         'dealer' => 'Выберите дилера:',
-        'phone' => 'Отправьте свой номер телефона по кнопке ниже, или введите номер в формате <i>+998XXXXXXXXX</i>',
+        'phone' => 'Отправьте свой номер телефона по кнопке ниже, или введите номер в формате <i>998XXXXXXXXX</i>',
     ];
 
     public function onStart(): void
