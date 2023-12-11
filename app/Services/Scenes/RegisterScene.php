@@ -28,12 +28,12 @@ class RegisterScene extends BaseScene
         'region' => 'Выберите ваш регион:',
         'location' => 'Выберите ваше местоположение:',
         'dealer' => 'Выберите дилера:',
-        'phone' => 'Введите ваш телефон:',
+        'phone' => 'Отправьте свой номер телефона по кнопке ниже, или введите номер в формате <i>+998XXXXXXXXX</i>',
     ];
 
     public function onStart(): void
     {
-        $this->ctx->answer('Приветственное сообщение от Baraka Dekor!');
+        $this->ctx->answer('Добро пожаловать в Baraka Dekor!');
     }
 
     public function initSteps(): array
@@ -156,7 +156,7 @@ class RegisterScene extends BaseScene
 
             'phone' => new SceneStep(
                 function () {
-                    $this->ctx->answer(
+                    $this->ctx->answerHtml(
                         $this->messages['phone'],
                         [
                             'reply_markup' => [

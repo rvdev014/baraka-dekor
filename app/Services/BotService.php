@@ -51,7 +51,7 @@ class BotService
                 $chatId = $ctx->getFromId();
                 $existUser = User::where('chat_id', $chatId)->first();
                 if ($existUser) {
-                    $ctx->answer('Приветственное сообщение для ' . $existUser->getFilamentName());
+                    $ctx->answer('Добро пожаловать, ' . $existUser->getFilamentName());
                     return;
                 }
 
@@ -60,7 +60,7 @@ class BotService
 
             $telegram->use(function (TgBot $ctx, $next) {
                 if (!User::where('chat_id', $ctx->getFromId())->exists()) {
-                    $ctx->answer('Сначала зарегистрируйтесь!');
+                    $ctx->answer('Сначала зарегистрируйтесь! /' . self::START_COMMAND);
                     return;
                 }
                 $next($ctx);
@@ -71,7 +71,9 @@ class BotService
             });
 
             $telegram->onCommand(self::HELP_COMMAND, function (TgBot $ctx) {
-                $ctx->answer('Для подробной информации, пишите @ravshan014');
+                $ctx->answer('Для получения подробной информации, обращайтесь:
++998974099294
+@Baraka_NOP');
             });
 
             $telegram->onAnyCallbackQuery(fn(TgBot $ctx) => $ctx->answerCbQuery(['text' => '👌']));
