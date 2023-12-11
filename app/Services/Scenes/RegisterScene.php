@@ -125,11 +125,19 @@ class RegisterScene extends BaseScene
                     );
                 },
                 function () {
-                    $location = $this->ctx->message['location'];
-                    TgHelper::console("Location: " . json_encode($location));
-                    $this->appendData([
-                        'location' => json_encode($location)
-                    ]);
+                    if (!empty($this->ctx->message['location'])) {
+                        $location = json_encode($this->ctx->message['location']);
+                    } else {
+                        $location = $this->ctx->getText();
+                    }
+
+                    if (empty($location)) {
+                        $this->ctx->answer('Пожалуйста, отправьте или напишите данные своего местоположения!');
+                        return;
+                    }
+
+                    TgHelper::console("Location: " . $location);
+                    $this->appendData(['location' => $location]);
                     $this->next();
                 }
             ),
@@ -172,8 +180,12 @@ class RegisterScene extends BaseScene
                     );
                 },
                 function () {
-                    $contact = $this->ctx->message['contact'];
-                    $this->appendData(['phone' => $contact['phone_number']]);
+                    if (!empty($this->ctx->message['contact'])) {
+                        $phone = $this->ctx->message['contact']['phone_number'];
+                    } else {
+                        $phone = $this->ctx->getText();
+                    }
+                    $this->appendData(['phone' => $phone]);
 
                     if ($this->saveData()) {
                         $response = 'Спасибо за регистрацию! Ваши данные успешно сохранены!';

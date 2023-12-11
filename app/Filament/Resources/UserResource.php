@@ -91,9 +91,13 @@ class UserResource extends Resource
                     ->label('Локация')
                     ->formatStateUsing(function (User $record) {
                         $location = json_decode($record->location, true);
-                        $lat = $location['latitude'];
-                        $lon = $location['longitude'];
-                        return "$lat, $lon";
+                        if (!empty($location)) {
+                            $lat = $location['latitude'];
+                            $lon = $location['longitude'];
+                            return "$lat, $lon";
+                        }
+
+                        return $record->location;
                     }),
                 /*Tables\Columns\IconColumn::make('is_admin')
                     ->boolean()

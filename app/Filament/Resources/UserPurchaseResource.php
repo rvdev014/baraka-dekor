@@ -9,15 +9,11 @@ use App\Filament\Utils\Filters\DateRangeFilter;
 use App\Models\User;
 use App\Models\UserPurchase;
 use Filament\Forms;
-use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Carbon;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 
 class UserPurchaseResource extends Resource
@@ -65,20 +61,20 @@ class UserPurchaseResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('user.firstname')
                     ->label('ФИО')
-                    ->formatStateUsing(fn (UserPurchase $record) => $record->user->getFilamentName()),
+                    ->formatStateUsing(fn(UserPurchase $record) => $record->user->getFilamentName()),
                 Tables\Columns\TextColumn::make('user.phone')
                     ->numeric()
                     ->label('Номер телефона')
-                    ->formatStateUsing(fn (UserPurchase $record) => $record->user->phone),
+                    ->formatStateUsing(fn(UserPurchase $record) => $record->user->phone),
                 Tables\Columns\TextColumn::make('user.district')
                     ->label('Область')
-                    ->formatStateUsing(fn (UserPurchase $record) => $record->user->district->name),
+                    ->formatStateUsing(fn(UserPurchase $record) => $record->user->district->name),
                 Tables\Columns\TextColumn::make('user.region')
                     ->label('Регион')
-                    ->formatStateUsing(fn (UserPurchase $record) => $record->user->region->name),
+                    ->formatStateUsing(fn(UserPurchase $record) => $record->user->region->name),
                 Tables\Columns\TextColumn::make('user.dealer')
                     ->label('Дилер')
-                    ->formatStateUsing(fn (UserPurchase $record) => $record->user->dealer->name),
+                    ->formatStateUsing(fn(UserPurchase $record) => $record->user->dealer->name),
                 Tables\Columns\TextColumn::make('price')
                     ->numeric()
                     ->sortable()
